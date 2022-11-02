@@ -1,35 +1,36 @@
 
-import React from "react";
+import {useState} from "react";
 import {FormAddContact, Label, Input, ButtonSubmit } from "./ContactForm.styled";
 
-export class ContactForm extends React.Component{
-    state = {
-        name: '',
-        number: ''
-      }
-      hendleNameChange = e =>{
+export function ContactForm ({onSubmitDate}){
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('')
+
+     const  hendleNameChange = e =>{
         const {name, value} = e.target;
-        this.setState({[name]: value})
+        // this.setState({[name]: value})
+        if(name === 'name'){
+          setName(value)
+          return
+        }
+        if(name === 'number'){
+          setNumber(value)
+        }
       }
     
-      Clear = () =>{
-        this.setState({
-          name: '',
-          number: ''
-        })
+     const  Clear = () =>{
+       setName('');
+       setNumber('');
       }
 
-      hendlOnSubmit = (e) =>{
+    const  hendlOnSubmit = e =>{
         e.preventDefault();
-this.props.onSubmitDate(this.state)
-        this.Clear();
+onSubmitDate({name, number});
+      Clear();
       }
 
-
-
-render(){
     return (
-<FormAddContact onSubmit={this.hendlOnSubmit} >
+<FormAddContact onSubmit={hendlOnSubmit} >
 <Label htmlFor="idLabelName">Name</Label>
     <Input
     id="idLabelName"
@@ -38,8 +39,8 @@ render(){
       pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
       title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
       required
-      value={this.state.name}
-      onChange={this.hendleNameChange}
+      value={name}
+      onChange={hendleNameChange}
     />
 <Label htmlFor="idLabelNumber">Number</Label>
     <Input
@@ -49,13 +50,11 @@ render(){
       pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
       title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
       required
-      value={this.state.number}
-      onChange={this.hendleNameChange}
+      value={number}
+      onChange={hendleNameChange}
     />
    
     <ButtonSubmit type="submit"> Add contact </ButtonSubmit>
    </FormAddContact>
     )
-}
-
 }
