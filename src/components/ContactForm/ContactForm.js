@@ -5,6 +5,7 @@ import {
   Input,
   ButtonSubmit,
 } from './ContactForm.styled';
+import PropTypes from 'prop-types';
 
 export function ContactForm({ onSubmitDate }) {
   const [name, setName] = useState('');
